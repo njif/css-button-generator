@@ -32,6 +32,10 @@ body {
 	max-width: 210px;
 }
 
+.options-block .form-group .control-holder {
+	margin-top: 10px;
+}
+
 .options-block input.form-control {
 	display: inline-block;
 }
@@ -73,9 +77,6 @@ body {
 		height: auto;
 	}
 }
-
-
-
 
 .result-button {
 	padding: 12px;
