@@ -71,7 +71,7 @@ body {
 	background: #ffffff;
 }
 
-@media (min-width: 970px) {
+@media (min-width: 992px) {
 	.result-block {
 		background: #ffffff url('../img/divider.png') repeat-y;
 		height: auto;
