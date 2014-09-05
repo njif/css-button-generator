@@ -34,6 +34,7 @@ body {
 
 .options-block .form-group .control-holder {
 	margin-top: 10px;
+	max-width: 240px;
 }
 
 .options-block input.form-control {
