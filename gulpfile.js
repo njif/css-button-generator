@@ -102,7 +102,7 @@ function processStyles() {
 			cascade: false
         }))
 		.pipe(concatCss("bundle.css"))
-		/*.pipe(minifyCss())*/
+		.pipe(minifyCss())
 		.pipe(sourcemaps.write())
 		.pipe(rename('bundle.min.css'))
 		.pipe(header(banner, { pkg : pkg } ))
