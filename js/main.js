@@ -1,63 +1,54 @@
-;({
-	initialize: function () {		
-		var resultBtn = $('.result-button');
-		this.initDefaults(resultBtn);
-		this.initControls(resultBtn);
-		this.attachEvents();
-	},
+;(function(ns, $) {
 
-	initDefaults: function(resultBtn) {
-		this._default = {
-			radius: resultBtn.css('border-radius').split("px")[0],
-			width: resultBtn.css('border-width').split("px")[0],
-			text: resultBtn.html()
-		};
-	},
+	var app = function() {
+		this._controls = { options: null, result: null, code: null, mail: null };
+		this._init();
+	};
 
-	initControls: function(resultBtn)
-	{
-		this.controls = {
-			result: resultBtn,
-			radius: $('#slider-border-radius').slider({ range: "min", value: this._default.radius, min: 0, max: 20 }),
-			size: $('#slider-border-size').slider({ range: "min", value: this._default.width, min: 0, max: 20 }),
-			text: $('#buttonText').val(this._default.text)
-		};
-	},
+	app.prototype = {
+		_init: function () {
+			this._createControls();
+			this._attachEvents();
+			this._controls.result.raiseAllCallbacks();
+		},
 
-	attachEvents: function() {
-		this.controls.radius.on('slide', $.proxy(this.onRadiusChange, this));
-		this.controls.size.on('slide', $.proxy(this.onSizeChange, this));
-		this.controls.text
-			.on('focus', $.proxy(this.onTextFocus, this))
-			.on('blur', $.proxy(this.onTextBlur, this))
-			.on('keyup', $.proxy(this.onTextChange, this));
-	},
+		_createControls: function() {
+			this._controls.options = new ns.OptionsControls($('.options-block'));
+			this._controls.result = new ns.ResultControls($('.result-block'));
+			this._controls.code = new ns.CodeControls($('.generator-code'));
+			this._controls.mail = new ns.MailControls($('.generator-mail'));
+		},
 
-	onTextFocus: function() {
-		if (this.controls.text.val() != this._default.text)
-			return;
-		
-		this.controls.text.val('');
-		this.controls.result[0].innerHTML = '';
-	},
+		_attachEvents: function() {
+			var controls = this._controls;
 
-	onTextBlur: function() {
-		if (this.controls.text.val() != '')
-			return;
+			controls.options
+				.onCssChanged(function(changes) { 
+					controls.result.setCss(changes); 
+				})
+				.onTextChanged(function(value) { 
+					controls.result.setText(value); 
+				});
 
-		this.controls.text.val(this._default.text);
-		this.controls.result[0].innerHTML = this._default.text;
-	},
+			controls.result
+				.onCssChanged(function(value) { 
+					controls.code.css(value); 
+				})
+				.onHtmlChanged(function(value) { 
+					controls.code.html(value); 
+				});
 
-	onTextChange: function(ev) {
-		this.controls.result[0].innerHTML = this.controls.text.val();
-	},
+			var text = this._getEmailText(controls.code.html(), controls.code.css());
+			controls.mail.onSubmit(function(email, text) { 
+				ns.jstools.sendEmail(email); 
+			});
+		},
 
-	onRadiusChange: function(ev, ui) {
-		this.controls.result.css('border-radius', ui.value);		
-	},
+		_getEmailText: function(html, css) {
+			return css + html; // TODO!
+		}
+	};
 
-	onSizeChange: function(ev, ui) {
-		this.controls.result.css('border-width', ui.value);
-	}
-}).initialize();
+	new app();
+
+}(window.cssbutton, jQuery));
