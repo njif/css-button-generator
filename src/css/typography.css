@@ -1,0 +1,22 @@
+.generator-header h1 {
+	font-family: 'SegoeUI-Regular';
+	font-size: 24px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.options-block h2, .result-block h2, .options-block .control-label {
+	font-family: 'SegoeUI-Regular';
+	font-size: 18px;
+}
+
+.options-block h2, .result-block h2 {
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.email-submit {
+	font-family: 'MyriadPro-Bold';
+	font-size: 14px;
+	color: #ffffff;
+}

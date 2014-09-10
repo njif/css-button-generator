@@ -10,7 +10,14 @@
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<link rel="stylesheet" href="dist/css/bundle.min.css">
+	<!--build:css dist/css/bundle.min.css -->
+	<link rel="stylesheet" href="vendors/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="vendors/jquery/jquery-ui-1.11.1.custom/jquery-ui.min.css">
+	<link rel="stylesheet" href="css/fonts.css">
+	<link rel="stylesheet" href="css/typography.css">
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/ui-slider.css">
+	<!--/build-->
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -69,6 +76,23 @@
 	<!-- PageWrapper end -->
 
 	<!-- Scripts -->
-	<script src="dist/js/app.min.js"></script>
+	<!--build:js dist/js/app.min.js-->
+	<script src="vendors/jquery/jquery-1.11.0.js"></script>
+	<script src="vendors/jquery/jquery-ui-1.11.1.custom/jquery-ui.js"></script>
+	<script src="vendors/bootstrap/js/bootstrap.min.js"></script>
+	<script src="js/namespace.js"></script>
+	<script src="../node_modules/css-rules.js/css-rules.js"></script>
+	<script src="js/plugins/jstools.js"></script>
+	<script src="js/plugins/cssrule.js"></script>
+	<script src="js/plugins/cssclass.js"></script>
+	<script src="js/controls/options/options-controls.js"></script>
+	<script src="js/controls/options/options-slider.js"></script>
+	<script src="js/controls/options/options-text.js"></script>
+	<script src="js/controls/result/result-controls.js"></script>
+	<script src="js/controls/result/result-controls.js"></script>
+	<script src="js/controls/code/code-controls.js"></script>
+	<script src="js/controls/mail/mail-controls.js"></script>
+	<script src="js/main.js"></script>
+	<!--/build -->
 </body>
 </html>
