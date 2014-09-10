@@ -1,0 +1,8 @@
+{
+  "name": "css-button-generator",
+  "version": "0.2.0",
+  "author": "Anton Seroshtan",
+  "devDependencies": {
+    "css-rules.js": "latest"
+  }
+}
