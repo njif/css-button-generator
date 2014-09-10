@@ -1,1 +1,0 @@
-window.cssbutton = window.cssbutton || {};
