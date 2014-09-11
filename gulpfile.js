@@ -1,3 +1,5 @@
+'use strict';
+
 /********************************
 *********************************
 			VARS
@@ -20,6 +22,8 @@ var gulp = require('gulp'),
 	notify = require("gulp-notify"),
 	plumber = require('gulp-plumber'),
 
+	connect = require('gulp-connect'),
+
 	pkg = require('./package.json'),
 
 	banner = ['/**',
@@ -35,9 +39,9 @@ var gulp = require('gulp'),
 *********************************
 *********************************/
 
-gulp.task('default', ['build', 'watch']);
+gulp.task('default', ['connectToserver', 'build', 'watch']);
 gulp.task('copyResources', ['copyImages', 'copyFonts']);
-gulp.task('build', ['clearDist', 'makeDist', 'processHtml', 'processStyles', 'processScripts']);
+gulp.task('build', ['clearDist', 'makeDist', 'processStyles', 'processScripts', 'processHtml']);
 
 gulp.task('clearDist', clearDist);
 gulp.task('clearDistResources', clearDist);
@@ -50,12 +54,12 @@ gulp.task('processScripts', processScripts);
 gulp.task('copyImages', copyImages);
 gulp.task('copyFonts', copyFonts);
 
-var watcherCss = gulp.task('watchCss', watchCss);
-var watcherScripts = gulp.task('watchScripts', watchScripts);
+gulp.task('connectToserver', connectToserver);
 
-watcherCss.on('change', notifyChanges);
-watcherScripts.on('change', notifyChanges);
-
+gulp.task('watch', watch);
+gulp.task('watchCss', watchCss);
+gulp.task('watchScripts', watchScripts);
+gulp.task('watchHtml', watchHtml);
 
 /********************************
 *********************************
@@ -87,6 +91,7 @@ function processHtml() {
 		.pipe(plumber())
 		.pipe(processhtml('index.html'))
 		.pipe(gulp.dest('./'))
+		.pipe(connect.reload())
 		.pipe(notify('Html processed!'));	
 };
 
@@ -107,6 +112,7 @@ function processStyles() {
 		.pipe(rename('bundle.min.css'))
 		.pipe(header(banner, { pkg : pkg } ))
 		.pipe(gulp.dest('dist/css'))
+		.pipe(connect.reload())
 		.pipe(notify('Styles processed!'))
 }
 
@@ -126,6 +132,7 @@ function processScripts() {
 		.pipe(concat('app.min.js'))
 		.pipe(header(banner, { pkg : pkg } ))
 		.pipe(gulp.dest('dist/js'))
+		.pipe(connect.reload())
 		.pipe(notify('Scripts processed!'))
 };
 
@@ -156,6 +163,22 @@ function watchScripts() {
 	gulp.watch('src/js/**/*.js', ['processScripts']);
 };
 
+function watchHtml() {
+	gulp.watch('src/*.html', ['processHtml']);
+};
+
+function watch() {
+	gulp.run(['watchCss', 'watchScripts', 'watchHtml']);
+};
+
 function notifyChanges(event){
 	notify(event.path+' -> '+event.type);
+};
+
+
+function connectToserver() {
+	connect.server({
+		root: './',
+		livereload: true
+	});
 };
