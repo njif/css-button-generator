@@ -115,6 +115,7 @@ function processScripts() {
 			'src/vendors/jquery/jquery-1.11.0.js',
 			'src/vendors/jquery/jquery-ui-1.11.1.custom/jquery-ui.js',
 			'src/vendors/bootstrap/bootstrapjs/bootstrap.min.js',
+			'src/vendors/autoprefixer/autoprefixer.js',
 			'src/js/namespace.js',
 			'node_modules/css-rules.js/css-rules.js',
 			'src/js/plugins/**/*.js',

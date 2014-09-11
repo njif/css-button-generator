@@ -21,6 +21,8 @@
 			'max-width': '400px',
 			'text-shadow': '0 1px rgba(0,0,0,.32)',
 			'box-shadow': '0 1px 1px rgba(0,0,0,.19), inset 0 2px rgba(255,255,255,.58), inset 0 0 5px rgba(255,255,255,.38)',
+			'background-image': 'linear-gradient(to bottom, rgba(255,255,255,.34), rgba(255,255,255,0))',
+			'box-shadow': '0 1px 1px rgba(0,0,0,.19), inset 0 2px rgba(255,255,255,.5), inset 0 0 5px rgba(255,255,255,.31)',
 			'outline': 'none'
 		}
 	};
@@ -30,7 +32,6 @@
 		this._config = $.extend({}, defaults, config);
 		this._controls = { button: null };
 		this._btnClass = 'default-button';
-		this._style = null;
 		this._callbacks = { css: [], html: [] };
 		this._init();
 	};
@@ -45,10 +46,10 @@
 		},
 
 		setCss: function(changes) {
-			var css = this._getButtonCssString(changes);
+			var style = this._getButtonCssString(changes);
 			ns.cssrules.remove('.' + this._btnClass);
-			ns.cssrules.add('.' + this._btnClass, css);
-			ns.jstools.publish(this._callbacks.css, '.' + this._btnClass + ' {\n' + css + '}');
+			ns.cssrules.add('.' + this._btnClass, style.substring(1, style.length-1));
+			ns.jstools.publish(this._callbacks.css, '.' + this._btnClass + style);
 		},
 
 		setText: function(value) {
@@ -56,17 +57,39 @@
 			ns.jstools.publish(this._callbacks.html, $.trim(this._controls.button.parent().html()));
 		},
 
-		_getButtonCssString: function(changes) {
-			this._config.buttonStyle = $.extend({}, this._config.buttonStyle, changes);
-			this._style.add(this._btnClass, this._config.buttonStyle);
-			return this._style.toString(this._btnClass);
-		},
-
 		_init: function() {
 			this._holder.html(htmlTemlate);
 			this._controls.button = this._holder.find('button').addClass(this._btnClass);
-			this._style = new ns.CssClass().add(this._btnClass,this._config.buttonStyle);
-			ns.cssrules.add('.' + this._btnClass, this._style.toString(this._btnClass));
+			var style = this._appendPrefixes(this._config.buttonStyle);
+			ns.cssrules.add('.' + this._btnClass, style.substring(1,style.length-1));
+			this._config.buttonStyle = this._convertFromStyleToObject(style);
+		},
+
+		_getButtonCssString: function(changes) {
+			this._config.buttonStyle = $.extend({}, this._config.buttonStyle, changes);
+			return this._appendPrefixes(this._config.buttonStyle);
+		},
+
+		_convertFromStyleToObject: function(styleStr) {
+			if (styleStr.length < 5)
+				return JSON.parse(styleStr);
+			var fixed = styleStr.replace(/:/g, '":"').replace(/;/g, '","').replace('{', '{"').replace(',"}', '}')
+			return JSON.parse(fixed);
+		},
+
+		_convertObjectToStyle: function(obj)
+		{
+			var retval = '{';
+			for (prop in obj)
+				if (obj.hasOwnProperty(prop))
+					retval += prop + ':' + obj[prop] + ';';
+			return retval + '}';
+		},
+
+		_appendPrefixes: function(styleObj) {
+			var styleStr = this._convertObjectToStyle(styleObj);
+			var fixed = autoprefixer.process(styleStr).css;
+			return fixed.length < 5 ? styleStr : fixed;
 		}
 	};
 
