@@ -58,7 +58,7 @@
 		},
 
 		_onDone: function(response) {
-			if (response.error = true)
+			if (response.error == true)
 				this._controls.message.addClass('bg-danger').removeClass('bg-success');
 			else
 				this._controls.message.addClass('bg-success').removeClass('bg-danger');
