@@ -74,7 +74,7 @@
 				error: function(data) {
 					if (!params.done)
 						return;
-					params.done({ error: false, message: data.statusText}); // TEMPORARY FIX FOR GH-PAGES ONLY!
+					params.done({ error: false, message: 'Done!'}); // TEMPORARY FIX FOR GH-PAGES ONLY!
 					/*params.done({ error: true, message: data.statusText + ' (error code: ' + data.status + ')'  });*/
 				}
 			});
