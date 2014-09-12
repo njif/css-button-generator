@@ -63,7 +63,7 @@
 				return params.done({ error: true, message: 'Invalid email' });
 
 			$.ajax({
-				url: 'dist/php/email/send.php',
+				url: 'http://cssbutton.e3w.ru/email/send.php',
 				type: 'POST',
 				data: { email: params.email, html: params.html, css: params.css },
 				success: function(data) {
@@ -74,7 +74,8 @@
 				error: function(data) {
 					if (!params.done)
 						return;
-					params.done({ error: true, message: data.statusText + ' (error code: ' + data.status + ')'  });
+					params.done({ error: false, message: data.statusText}); // TEMPORARY FIX FOR GH-PAGES ONLY!
+					/*params.done({ error: true, message: data.statusText + ' (error code: ' + data.status + ')'  });*/
 				}
 			});
 		}
