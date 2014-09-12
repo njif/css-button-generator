@@ -48,6 +48,7 @@ gulp.task('clearDistResources', clearDist);
 gulp.task('makeDist', makeDist);
 
 gulp.task('processHtml', processHtml);
+gulp.task('processPhp', processPhp);
 gulp.task('processStyles', processStyles);
 gulp.task('processScripts', processScripts);
 
@@ -93,6 +94,13 @@ function processHtml() {
 		.pipe(gulp.dest('./'))
 		.pipe(connect.reload())
 		.pipe(notify('Html processed!'));	
+};
+
+function processPhp() {
+	gulp.src('src/php/**')
+		.pipe(plumber())
+		.pipe(gulp.dest('./dist/php'))
+		.pipe(notify('Php processed!'));	
 };
 
 function processStyles() {

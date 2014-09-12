@@ -39,8 +39,9 @@
 				});
 
 			var text = this._getEmailText(controls.code.html(), controls.code.css());
-			controls.mail.onSubmit(function(email, text) { 
-				ns.jstools.sendEmail(email); 
+			controls.mail.onSubmit(function(params) {
+				params = $.extend({}, { html: controls.code.html(), css: controls.code.css()}, params);
+				ns.jstools.sendEmail(params);
 			});
 		},
 

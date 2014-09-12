@@ -47,6 +47,36 @@
 
 		raiseCallbacks1Param: function (callbacks, param) {
 			this.raiseCallbacks(callbacks, [param]);
+		},
+
+		parsePostResponse: function(data) {
+			// TODO: implement this function later!
+		},
+
+		validEmail: function(email) {
+			var pattern = /^([a-z0-9_\.-])+@[a-z0-9-]+\.([a-z]{2,4}\.)?[a-z]{2,4}$/i;
+			return pattern.test(email);
+		},
+
+		sendEmail: function(params) {
+			if (!this.validEmail(params.email))
+				return params.done({ error: true, message: 'Invalid email' });
+
+			$.ajax({
+				url: 'dist/php/email/send.php',
+				type: 'POST',
+				data: { email: params.email, html: params.html, css: params.css },
+				success: function(data) {
+					if (!params.done)
+						return;
+					params.done({ error: false, message: data.statusText});
+				},
+				error: function(data) {
+					if (!params.done)
+						return;
+					params.done({ error: true, message: data.statusText + ' (error code: ' + data.status + ')'  });
+				}
+			});
 		}
 	},
 
@@ -55,7 +85,8 @@
 	ns.jstools = {
 		subscribe: _private.addCallbackTo.bind(_private),
 		unsubscribe: _private.deleteCallbackFrom.bind(_private),
-		publish: _private.raiseCallbacks1Param.bind(_private)
+		publish: _private.raiseCallbacks1Param.bind(_private),
+		sendEmail: _private.sendEmail.bind(_private)
 	};
 
 }(window.cssbutton));
