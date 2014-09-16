@@ -88,7 +88,8 @@
 
 		_appendPrefixes: function(styleObj) {
 			var styleStr = this._convertObjectToStyle(styleObj);
-			var fixed = autoprefixer.process(styleStr).css;
+			var fixed = ns.jstools.addPrefixes(styleStr);
+		
 			return fixed.length < 5 ? styleStr : fixed;
 		}
 	};
