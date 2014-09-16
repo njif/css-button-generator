@@ -46,11 +46,11 @@
 		},
 
 		raiseCallbacks1Param: function (callbacks, param) {
-			this.raiseCallbacks(callbacks, [param]);
+			_private.raiseCallbacks(callbacks, [param]);
 		},
 
 		parsePostResponse: function(data) {
-			// TODO: implement this function later!
+			// TODO: implement _private function later!
 		},
 
 		validEmail: function(email) {
@@ -59,7 +59,7 @@
 		},
 
 		sendEmail: function(params) {
-			if (!this.validEmail(params.email))
+			if (!_private.validEmail(params.email))
 				return params.done({ error: true, message: 'Invalid email' });
 
 			$.ajax({
@@ -78,16 +78,28 @@
 					/*params.done({ error: true, message: data.statusText + ' (error code: ' + data.status + ')'  });*/
 				}
 			});
+		},
+
+		addPrefixes: function(styleStr) {
+			var retval;
+			try{
+				retval = autoprefixer.process(styleStr).css;
+			} catch(e) {
+				retval = styleStr;
+			}
+
+			return retval;
 		}
 	},
 
 	ns = namespace || window;
 
 	ns.jstools = {
-		subscribe: _private.addCallbackTo.bind(_private),
-		unsubscribe: _private.deleteCallbackFrom.bind(_private),
-		publish: _private.raiseCallbacks1Param.bind(_private),
-		sendEmail: _private.sendEmail.bind(_private)
+		subscribe: _private.addCallbackTo,
+		unsubscribe: _private.deleteCallbackFrom,
+		publish: _private.raiseCallbacks1Param,
+		sendEmail: _private.sendEmail,
+		addPrefixes: _private.addPrefixes
 	};
 
 }(window.cssbutton));
