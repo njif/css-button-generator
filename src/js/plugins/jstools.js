@@ -83,7 +83,7 @@
 		addPrefixes: function(styleStr) {
 			var retval;
 			try{
-				retval = autoprefixer.process(styleStr).css;
+				retval = typeof autoprefixer == "undefined" ? styleStr : autoprefixer.process(styleStr).css;
 			} catch(e) {
 				retval = styleStr;
 			}
