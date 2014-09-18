@@ -36,13 +36,13 @@ if (!empty($_POST)) {
 		$mail->Body = "Button html code: \r\n {$_POST['html']}\r\n Button css code: \r\n {$_POST['css']}";
 
 		if ($mail->Send()) {
-			echo 'Done!';
+			echo '<div class="server_response">Done!</div>';
 		} else {
-			echo 'Mailer error: ' . $mail->ErrorInfo;
+			echo '<div class="server_response">Mailer error: ' . $mail->ErrorInfo+'</div>';
 		};
 
 	} else {
-		echo 'Error: Wrong email!';
+		echo '<div class="server_response">Error: Wrong email!</div>';
 	};
 
 };

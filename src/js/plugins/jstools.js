@@ -50,7 +50,8 @@
 		},
 
 		parsePostResponse: function(data) {
-			// TODO: implement _private function later!
+			var jresponse = $('<div />').html(data).find('.server_response');
+			return jresponse.length > 0 ? jresponse.first() : data;
 		},
 
 		validEmail: function(email) {
@@ -69,7 +70,7 @@
 				success: function(data) {
 					if (!params.done)
 						return;
-					params.done({ error: false, message: data.statusText});
+					params.done({ error: false, message: _private.parsePostResponse(data)});
 				},
 				error: function(data) {
 					if (!params.done)
