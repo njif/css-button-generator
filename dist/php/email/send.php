@@ -7,6 +7,8 @@ if (!empty($_POST)) {
 	$email_adress = $_POST['email'];
 
 	if (validateEmail($email_adress)) {
+		header('Access-Control-Allow-Origin: http://njif.github.io');
+
 		require_once ("lib/mail/PHPMailerAutoload.php");
 
 		$mail = new PHPMailer();
